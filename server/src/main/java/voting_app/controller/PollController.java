@@ -6,16 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+  import org.springframework.web.bind.annotation.RequestBody;
+  import org.springframework.web.bind.annotation.RequestMapping;
+  import org.springframework.web.bind.annotation.RestController;
+  import org.springframework.web.bind.annotation.CrossOrigin;
 
-import voting_app.request.Vote;
-import voting_app.services.PollService;
-import voting_app.voting_app_model.Poll;
+  import voting_app.request.Vote;
+  import voting_app.services.PollService;
+  import voting_app.voting_app_model.Poll;
 
-@RestController
-@RequestMapping("/api/polls")
+  @RestController
+  @RequestMapping("/api/polls")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PollController {
   private final PollService pollService;
   
