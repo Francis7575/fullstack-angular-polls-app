@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import voting_app.request.Vote;
 import voting_app.services.PollService;
 import voting_app.voting_app_model.Poll;
 
@@ -39,5 +40,8 @@ public class PollController {
             .orElse(ResponseEntity.notFound().build());
   }
 
-  
+  @PostMapping("/vote")
+  public void vote(@RequestBody Vote vote) {
+      pollService.vote(vote.getPollId(), vote.getOptionIndex());
+  }
 }
