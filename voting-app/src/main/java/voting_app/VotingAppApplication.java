@@ -1,4 +1,4 @@
-package com.voting.voting_app;
+package voting_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
