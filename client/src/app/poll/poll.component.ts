@@ -12,12 +12,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class PollComponent implements OnInit {
   newPoll: Poll = {
+    id: 0,
     question: '',
     options: [
-      {optionText: '', voteCount: 0},
-      {optionText: '', voteCount: 0}
-    ]
-  }
+      { optionText: '', voteCount: 0 },
+      { optionText: '', voteCount: 0 },
+    ],
+  };
 
   polls: Poll[] = [];
 
@@ -39,20 +40,49 @@ export class PollComponent implements OnInit {
     });
   }
 
-  createPoll() {
-    console.log('Creating Poll:', this.newPoll);
-    this.pollService.createPoll(this.newPoll).subscribe({
-      next: (createdPoll) => {
-        this.polls.push(createdPoll)
-      },
+  addOption() {
+    this.newPoll.options.push({ optionText: '', voteCount: 0 });
+  }
 
+  createPoll() {
+    const { id, ...pollWithoutId } = this.newPoll;
+    this.pollService.createPoll(pollWithoutId).subscribe({
+      next: (createdPoll) => {
+        this.polls.push(createdPoll);
+        this.resetPoll();
+      },
       error: (error) => {
-        console.error('Error fetching polls'  , error);
-      }
-    })
+        console.error('Error creating polls', error);
+      },
+    });
+  }
+
+  resetPoll() {
+    this.newPoll = {
+      id: 0,
+      question: '',
+      options: [
+        { optionText: '', voteCount: 0 },
+        { optionText: '', voteCount: 0 },
+      ],
+    };
+  }
+
+  vote(pollId: number, optionIndex: number) {
+    this.pollService.vote(pollId, optionIndex).subscribe({
+      next: () => {
+        const poll = this.polls.find((p) => p.id === pollId);
+        if (poll) {
+          poll.options[optionIndex].voteCount++;
+        }
+      },
+      error: (error) => {
+        console.error('Error voting on the poll', error);
+      },
+    });
   }
 
   trackByIndex(index: number): number {
     return index;
-  } 
+  }
 }

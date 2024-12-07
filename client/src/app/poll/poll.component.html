@@ -7,10 +7,16 @@
   <div class="options-container mb-3">
     <div *ngFor="let option of newPoll.options; let i = index; trackBy: trackByIndex" class="input-group mb-2">
       <input [(ngModel)]="option.optionText" type="text" placeholder="Option" class="form-control" required>
+      <button (click)="newPoll.options.splice(i, 1)" *ngIf="newPoll.options.length > 2" class="btn btn-danger">
+        Remove
+      </button>
     </div>
   </div>
 
-  <button (click)="createPoll()" class="btn btn-primary">
+  <button (click)="addOption()" class="me-2 btn btn-primary">
+    Add Another Poll
+  </button>
+  <button (click)="createPoll()" class="btn btn-primary ml-2">
     Create Poll
   </button>
   <h2 class="mt-4 text-center">Available polls</h2>
@@ -20,7 +26,7 @@
       <h3>{{ poll.question }}</h3>
       <div class="options-list">
         <div *ngFor="let option of poll.options; let i = index">
-          <button class="btn btn-outline-primary mt-2">
+          <button (click)="vote(poll.id!, i)" class="btn btn-outline-primary mt-2">
             {{ option.optionText }} ( {{option.voteCount}} votes)
           </button>
         </div>
