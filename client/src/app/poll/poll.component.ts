@@ -11,7 +11,16 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './poll.component.css',
 })
 export class PollComponent implements OnInit {
+  newPoll: Poll = {
+    question: '',
+    options: [
+      {optionText: '', voteCount: 0},
+      {optionText: '', voteCount: 0}
+    ]
+  }
+
   polls: Poll[] = [];
+
   constructor(private pollService: PollService) {}
 
   // loadPolls on mount
@@ -29,4 +38,21 @@ export class PollComponent implements OnInit {
       },
     });
   }
+
+  createPoll() {
+    console.log('Creating Poll:', this.newPoll);
+    this.pollService.createPoll(this.newPoll).subscribe({
+      next: (createdPoll) => {
+        this.polls.push(createdPoll)
+      },
+
+      error: (error) => {
+        console.error('Error fetching polls'  , error);
+      }
+    })
+  }
+
+  trackByIndex(index: number): number {
+    return index;
+  } 
 }

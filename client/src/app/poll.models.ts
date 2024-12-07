@@ -4,7 +4,6 @@ export interface OptionVote {
 }
 
 export interface Poll {
-  id: number
   question: string
   options: OptionVote[]
 }
